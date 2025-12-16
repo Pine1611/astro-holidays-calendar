@@ -13,8 +13,6 @@ const RenderCalendar = ({ holidays }) => {
 
 		const isHoliday = Boolean(holidayName);
 
-		// console.log(arg);
-
 		let elDayEvent = arg.el.querySelector(".fc-daygrid-day-bottom");
 		elDayEvent.innerHTML = `${isHoliday ? `<span className="holiday-label">${holidayName}</span>` : ""}`;
 
@@ -44,32 +42,40 @@ const RenderCalendar = ({ holidays }) => {
 			dayCellDidMount: renderDayCellContent,
 		});
 		calendar.render();
-	});
+	}, [holidays]);
 
 	return <div ref={calendarRef}></div>;
 };
 
-export default function HolidaysCalendar() {
-	const [holidays, setHolidays] = useState({});
+const HolidaysCalendar = () => {
+	const [holidays, setHolidays] = useState(null);
+	const [isLoading, setIsLoading] = useState(true);
+	const [error, setError] = useState(null);
 
-	const fetchHolidays = async () => {
-		try {
-			const response = await fetch("/api/holidays.json");
-
-			if (!response.ok) {
-				throw new Error("Network response was not ok!");
-			}
-
-			const data = await response.json();
-
-			setHolidays(data);
-		} catch (error) {
-			console.log(error);
-		}
-	};
 	useEffect(() => {
+		const fetchHolidays = async () => {
+			try {
+				const response = await fetch("/api/holidays.json");
+				const data = await response.json();
+				setHolidays(data);
+			} catch (error) {
+				console.log(error);
+				setError(error);
+			} finally {
+				setIsLoading(false);
+			}
+		};
+
 		fetchHolidays();
 	}, []);
+
+	if (isLoading) {
+		return <div>Loading data...</div>;
+	}
+
+	if (error) {
+		return <div>Error: {error}</div>;
+	}
 
 	return (
 		<>
@@ -78,4 +84,6 @@ export default function HolidaysCalendar() {
 			</div>
 		</>
 	);
-}
+};
+
+export default HolidaysCalendar;
