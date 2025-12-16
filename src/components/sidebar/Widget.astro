@@ -1,0 +1,10 @@
+---
+const { titleWidget } = Astro.props;
+---
+
+<div>
+	<h3 class="px-3 pt-0.5 pb-1.5 text-sm/5 text-gray-400 uppercase dark:text-white/50">{titleWidget}</h3>
+	<div class="rounded-lg bg-white/10 p-5 inset-ring inset-ring-white/10 dark:bg-white/5 dark:inset-ring-white/5">
+		<slot name="contentWidget" />
+	</div>
+</div>
