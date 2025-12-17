@@ -9,7 +9,7 @@ A simple holidays calendar build with Astro
 
 ## API Data
 
-- **API**: [view here][api-link]
+- **API**: [check here][api-link]
 
 ## License
 
@@ -23,5 +23,5 @@ I am Pine
 
 Happy Coding!
 
-[demo-link]: https://holidays-calendar.ipine.net
+[demo-link]: https://holidays-calendar.ipine.dev
 [api-link]: https://pine1611.github.io/holidays
